@@ -7,7 +7,8 @@ class Form extends Component {
         this.state = {
             product_name: '',
             product_price: '',
-            product_imgURL: ''
+            product_imgURL: '',
+            idStorage: null
         }
     }
 
@@ -36,6 +37,21 @@ class Form extends Component {
             })})
 
     }
+
+    componentDidUpdate(prevProps){
+        if (prevProps!==this.props){
+            this.setState({
+                idStorage: this.props.editId
+            })
+            // let firstButton = document.getElementsByTagName('button')[0];
+        }
+    }
+
+    // updateProduct = (id)=>{
+    //     axios.put('/api/inventory/${id}')
+    //     .then()
+    //     .catch(err=>console.log(`tried to update the product we got an ${err}`))
+    // }
 
   render() {
     return (

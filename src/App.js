@@ -14,7 +14,8 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-        products: []
+        products: [],
+        editId: null
     }
 }
 
@@ -26,6 +27,12 @@ displayInventory = ()=>{
     // });
     // console.log(this.state.products)
   }).catch(err => console.log(`OHMYGOD: ${err}`))
+}
+
+selectedProduct=(id)=>{
+  this.setState({
+    editId: id
+  })
 }
 
 componentDidMount(){
@@ -43,9 +50,9 @@ componentDidMount(){
     return (
       <div className="App">
         <Header />
-        <Dashboard products={this.state.products} />
+        <Dashboard products={this.state.products} displayInventory={this.displayInventory} selectedProduct={this.selectedProduct} />
         <Product />
-        <Form displayInventory={this.displayInventory} />
+        <Form displayInventory={this.displayInventory} editId={this.state.editId} />
       </div>
     );
   }

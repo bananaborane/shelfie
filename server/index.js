@@ -20,6 +20,10 @@ app.get('/api/inventory', c.getInventory);
 
 app.post('/api/product', c.postToInventory);
 
+app.delete('/api/inventory/:id', c.delete);
+
+app.put('/api/inventory/:id', c.update)
+
 
 
 
