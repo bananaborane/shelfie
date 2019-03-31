@@ -23,8 +23,9 @@ class Form extends Component {
         this.setState({
             product_name: '',
             product_price: '',
-            product_imgURL: ''
+            product_imgURL: '',
         })
+        this.props.editResolved();
     }
 
     createProduct = ()=>{
@@ -40,21 +41,32 @@ class Form extends Component {
 
     componentDidUpdate(prevProps){
         if (prevProps!==this.props){
+            let {editId} = this.props
             this.setState({
-                idStorage: this.props.editId
+                idStorage: editId
             })
-            // let firstButton = document.getElementsByTagName('button')[0];
+ 
         }
     }
 
-    // updateProduct = (id)=>{
-    //     axios.put('/api/inventory/${id}')
-    //     .then()
-    //     .catch(err=>console.log(`tried to update the product we got an ${err}`))
-    // }
+    updateProduct = (id)=>{
+        axios.put('/api/inventory/${id}', this.state)
+        .then(()=>this.props.displayInventory())
+        .catch(err=>console.log(`tried to update the product we got an ${err}`))
+        let {editResolved} = this.props;
+        editResolved();
+        this.setState({ idStorage: null })
+    }
 
   render() {
-    return (
+    return this.state.idStorage ? ( <div>
+            <input onChange={e=>this.handleOnChange(e)} name='product_name' type="text" placeholder='enter new product name here' value={this.state.product_name} />
+            <input onChange={e=>this.handleOnChange(e)} name='product_price' type="text" placeholder='enter new product price here' value={this.state.product_price} />
+            <input onChange={e=>this.handleOnChange(e)} name='product_imgURL' type="text" placeholder='enter new product img URL here' value={this.state.product_imgURL} />
+            <button onClick={()=>{this.updateProduct(this.state.idStorage)}}>update product</button>
+            <button onClick={()=>this.handleCancel()}>cancel</button>
+
+    </div> ) : (
       <div>
           <div>
             <input onChange={e=>this.handleOnChange(e)} name='product_name' type="text" placeholder='enter product name here' value={this.state.product_name} />

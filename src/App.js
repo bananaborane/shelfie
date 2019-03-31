@@ -30,6 +30,15 @@ class App extends Component {
     });
   };
 
+  editResolved = ()=>{
+    if (this.setState.editId){
+
+      this.setState({
+        editId: null
+      })
+    }
+  }
+
   componentDidMount() {
     axios
       .get("/api/inventory")
@@ -56,6 +65,7 @@ class App extends Component {
           <Form
             displayInventory={this.displayInventory}
             editId={this.state.editId}
+            editResolved={this.editResolved}
           />
         </div>
       
